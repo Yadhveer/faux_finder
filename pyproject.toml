@@ -1,0 +1,21 @@
+[build-system]
+requires = ["hatchling >= 1.26"]
+build-backend = "hatchling.build"
+
+[project]
+name = "faux_finder"
+version = "0.0.1"
+description = "CLI application to identify and extract scripts of 'faux' Mach-O applications"
+readme = "README.md"
+authors = [{ name = "Yadhveer", email="yadhveer.manivannan@gmail.com"}]
+requires-python = ">=3.9"
+classifiers = [
+    "Programming Language :: Python :: 3",
+    "Operating System :: OS Independent",
+]
+license = "MIT"
+license-files = ["LICEN[CS]E*"]
+
+
+[project.optional-dependencies]
+tauri = ["brotli"]

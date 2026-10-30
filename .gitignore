@@ -1,0 +1,8 @@
+.DS_Store
+__pycache__/
+*.pyc
+# third-party slides and unrelated notes kept locally only
+NonBinary_DefCon33_Wardle.pdf
+source/modules/paper_summary.txt
+# local assistant notes
+CLAUDE.md
