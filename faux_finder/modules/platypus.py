@@ -23,7 +23,6 @@ def detect(bundle):
     if bundle.executable and macho.contains(bundle.executable, b"ScriptExec"):
         evidence.append("binary contains ScriptExec* classes")
 
-    # the script alone is too generic (it's just a file name): require a second signal
     signals = [e for e in evidence if not e.startswith("AppSettings.plist Interpreter")]
     return evidence if len(signals) >= 2 else []
 

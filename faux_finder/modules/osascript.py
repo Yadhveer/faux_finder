@@ -39,6 +39,5 @@ def extract(bundle, out_dir):
             f.write(result.stdout)
         written.append(source)
     else:
-        # run-only scripts have no source: needs applescript-disassembler / aevt_decompile
         print("osadecompile failed (run-only script?): " + result.stderr.strip())
     return written

@@ -13,10 +13,8 @@ name = "Tauri"
 
 STRINGS = [b"error while running tauri application", b"tauri.conf.json", b"__TAURI__", b"tauri://", b"Tauri App"]
 
-# sections that hold include_bytes!() data; everything else is only scanned as a fallback
 DATA_SECTIONS = {"__const", "__data", "__rodata"}
 MIN_OUTPUT = 16
-# the brotli crate embeds its 122,784 byte static dictionary; its words decode as bogus streams
 DICTIONARY_START = b"timedownlifeleftbackcodedatashowonlysite"
 DICTIONARY_SIZE = 122784
 MAGICS = {
@@ -42,7 +40,6 @@ def detect(bundle):
     if not bundle.executable or not os.path.isfile(bundle.executable):
         return []
     found = macho.contains(bundle.executable, *STRINGS)
-    # one stray string (e.g. in an editor that mentions tauri.conf.json) isn't enough
     if len(found) < 2 and STRINGS[0] not in found:
         return []
     evidence = ["binary contains " + s.decode() for s in found]
@@ -79,9 +76,8 @@ def stream_at(data, offset, limit):
         size *= 2
     else:
         return None
-    low, high = good, min(size, limit)    # low decodes, high errors
+    low, high = good, min(size, limit)
     if low == 0:
-        # shorter than 16 bytes in total: too small to be an asset
         return None
     while high - low > 1:
         middle = (low + high) // 2

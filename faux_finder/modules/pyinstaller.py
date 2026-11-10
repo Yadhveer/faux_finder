@@ -9,11 +9,10 @@ from . import macho
 name = "PyInstaller"
 
 COOKIE_MAGIC = b"MEI\x0c\x0b\x0a\x0b\x0e"
-COOKIE_SIZE = 24        # magic, package length, TOC offset, TOC length, python version
-COOKIE_SIZE_V21 = 88    # ...followed by the python library name
+COOKIE_SIZE = 24
+COOKIE_SIZE_V21 = 88
 STRINGS = [b"PYINSTALLER_", b"pyi-", b"pyi-runtime-tmpdir", b"Error detected starting Python VM", b"PYI-%d"]
 
-# pyc magic numbers by python version (major * 100 + minor)
 PYC_MAGIC = {308: 3413, 309: 3425, 310: 3439, 311: 3495, 312: 3531, 313: 3571, 314: 3627}
 
 
@@ -43,7 +42,6 @@ def read_cookie(data, cookie_pos, end):
     magic, pkg_len, toc_offset, toc_len, pyvers = struct.unpack("!8sIIii", data[cookie_pos:cookie_pos + COOKIE_SIZE])
     has_libname = b"python" in data[cookie_pos + COOKIE_SIZE:cookie_pos + COOKIE_SIZE_V21].lower()
     cookie_size = COOKIE_SIZE_V21 if has_libname else COOKIE_SIZE
-    # anything after the cookie (e.g. a code signature) is not counted in pkg_len's tail
     overlay_end_trim = end - (cookie_pos + cookie_size)
     overlay_start = end - (pkg_len + overlay_end_trim)
     return overlay_start, toc_offset, toc_len, pyvers
@@ -93,7 +91,7 @@ def unpack_pyz(blob, out_dir, header):
         try:
             code = zlib.decompress(blob[offset:offset + length])
         except zlib.error:
-            continue    # encrypted or corrupt entry
+            continue
         relative = module.replace(".", "/")
         relative += "/__init__.pyc" if ispkg else ".pyc"
         written.append(write(out_dir, relative, header + code))
@@ -115,11 +113,9 @@ def extract(bundle, out_dir):
                 written += unpack_pyz(blob, os.path.join(out_dir, entry_name + "_extracted"), header)
                 written.append(write(out_dir, entry_name, blob))
             elif type_code == "s":
-                # entry-point script: a bare marshalled code object, needs a pyc header to be loadable
                 written.append(write(out_dir, entry_name + ".pyc", header + blob))
             elif type_code in ("m", "M"):
                 written.append(write(out_dir, entry_name + ".pyc", header + blob))
             elif type_code in ("b", "x", "d", "l"):
                 written.append(write(out_dir, entry_name, blob))
-            # 'o' (runtime options) carry no data
     return written
