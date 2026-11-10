@@ -19,16 +19,18 @@ Pure Python 3, no required dependencies, macOS only.
 ## Usage
 
 ```sh
-git clone https://github.com/Yadhveer/faux_finder && cd faux_finder/source
+pip install git+https://github.com/Yadhveer/faux_finder      # add ".[tauri]" extra for Tauri assets
 
-python3 __main__.py /path/to/Some.app              # identify only
-python3 __main__.py /path/to/Some.app -o out/      # identify and extract to out/<wrapper>/
+faux_finder /path/to/Some.app              # identify only
+faux_finder /path/to/Some.app -o out/      # identify and extract to out/<wrapper>/
 ```
+
+From a clone you can also run `python3 -m faux_finder ...` or `pip install -e .`.
 
 Example:
 
 ```
-$ python3 __main__.py ../tests/pls.app -o out
+$ faux_finder tests/pls.app -o out
 Application is a faux app created using Platypus
   - Contents/Resources/script exists
   - AppSettings.plist Creator: Platypus-5.5.0
@@ -40,11 +42,11 @@ Extracted 1 file(s) to out/platypus
 
 Exit codes: `0` a wrapper was detected, `1` none detected, `2` bad input or extraction error.
 
-Tauri asset extraction needs the optional `brotli` package (`pip install brotli`). Without it, detection and extended-attribute recovery still work.
+Tauri asset extraction needs the optional `brotli` package (`pip install "faux_finder[tauri]"`). Without it, detection and extended-attribute recovery still work.
 
 ## How it works
 
-Each wrapper is a small module in `source/modules/` with `name`, `detect(bundle)` (returns a list of evidence strings, empty if no match) and `extract(bundle, out_dir)`. To add one, write the module and add it to `WRAPPERS` in `source/__main__.py`. Parsers written from scratch:
+Each wrapper is a small module in `faux_finder/modules/` with `name`, `detect(bundle)` (returns a list of evidence strings, empty if no match) and `extract(bundle, out_dir)`. To add one, write the module and add it to `WRAPPERS` in `faux_finder/__main__.py`. Parsers written from scratch:
 
 - **Mach-O** (`macho.py`): fat and thin binaries, linked libraries, sections.
 - **ASAR** (`electron.py`): the Chromium-pickle JSON header and file blob, including `.unpacked` files, with path-traversal protection.

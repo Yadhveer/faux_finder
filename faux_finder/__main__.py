@@ -2,12 +2,12 @@ import argparse
 import os
 import sys
 
-import modules.bundle as bundle_module
-import modules.platypus as platypus
-import modules.electron as electron
-import modules.osascript as osascript
-import modules.pyinstaller as pyinstaller
-import modules.tauri as tauri
+from .modules import bundle as bundle_module
+from .modules import platypus
+from .modules import electron
+from .modules import osascript
+from .modules import pyinstaller
+from .modules import tauri
 
 WRAPPERS = [platypus, electron, osascript, pyinstaller, tauri]
 

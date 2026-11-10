@@ -16,6 +16,12 @@ classifiers = [
 license = "MIT"
 license-files = ["LICEN[CS]E*"]
 
+[project.scripts]
+faux_finder = "faux_finder.__main__:main"
+
+[tool.hatch.build.targets.wheel]
+packages = ["faux_finder"]
+
 
 [project.optional-dependencies]
 tauri = ["brotli"]

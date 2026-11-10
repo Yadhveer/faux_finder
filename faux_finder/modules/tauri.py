@@ -2,7 +2,7 @@ import mmap
 import os
 import subprocess
 
-import modules.macho as macho
+from . import macho
 
 try:
     import brotli

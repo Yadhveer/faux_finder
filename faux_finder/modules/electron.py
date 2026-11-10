@@ -3,7 +3,7 @@ import os
 import shutil
 import struct
 
-import modules.macho as macho
+from . import macho
 
 name = "Electron"
 

@@ -4,7 +4,7 @@ import os
 import struct
 import zlib
 
-import modules.macho as macho
+from . import macho
 
 name = "PyInstaller"
 

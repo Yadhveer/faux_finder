@@ -15,20 +15,16 @@ except ImportError:
     brotli = None
 
 HERE = os.path.dirname(os.path.abspath(__file__))
-sys.path.insert(0, os.path.join(HERE, "..", "source"))
+sys.path.insert(0, os.path.join(HERE, ".."))
 
-import modules.bundle as bundle_module
-import modules.electron as electron
-import modules.macho as macho
-import modules.osascript as osascript
-import modules.platypus as platypus
-import modules.pyinstaller as pyinstaller
-import modules.tauri as tauri
-import importlib.util
-
-spec = importlib.util.spec_from_file_location("faux_finder_cli", os.path.join(HERE, "..", "source", "__main__.py"))
-cli = importlib.util.module_from_spec(spec)
-spec.loader.exec_module(cli)
+from faux_finder.modules import bundle as bundle_module
+from faux_finder.modules import electron as electron
+from faux_finder.modules import macho as macho
+from faux_finder.modules import osascript as osascript
+from faux_finder.modules import platypus as platypus
+from faux_finder.modules import pyinstaller as pyinstaller
+from faux_finder.modules import tauri as tauri
+from faux_finder import __main__ as cli
 
 
 def make_app(root, executable_source="/bin/ls", signature=None):

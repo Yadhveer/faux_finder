@@ -1,7 +1,7 @@
 import os
 import shutil
 
-import modules.macho as macho
+from . import macho
 
 name = "Platypus"
 
