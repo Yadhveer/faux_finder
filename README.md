@@ -72,7 +72,7 @@ Uses `unittest` only. Fixtures are a real Platypus 5.5.0 app, a real `app.asar`,
 
 ## Credit
 
-The identification and extraction techniques come from Patrick Wardle's talk and [Objective-See](https://objective-see.org) research. This is an independent implementation and isn't affiliated with him.
+The identification and extraction techniques come from Patrick Wardle's talk and [Objective-See](https://objective-see.org) research.
 
 ## License
 
